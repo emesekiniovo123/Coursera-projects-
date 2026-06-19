@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Management System</title>
+</head>
+<body>
+
+    <h1>Employee Management System</h1>
+
+    <div>
+        <button onclick="displayEmployees()">Display Employees</button>
+        <button onclick="calculateTotalSalaries()">Calculate Total Salaries</button>
+        <button onclick="displayHREmployees()">Display HR Employees</button>
+        <input type="number" id="searchId" placeholder="Enter Employee ID">
+        <button onclick="findEmployeeById(Number(document.getElementById('searchId').value))">Search by ID</button>
+
+    </div>
+
+    <div id="employeesDetails"></div>
+
+    <!-- 1. First link your data array source file -->
+    <script src="./employee_details.js"></script>
+
+    <!-- 2. Write your clean, non-duplicated logic functions here -->
+    <script>
+
+    const employees = [
+  { id: 1, name: 'John Doe', department: 'IT', salary: 5000 },
+  { id: 2, name: 'Alice Smith', department: 'HR', salary: 6000 },
+  { id: 3, name: 'Bob Johnson', department: 'HR', salary: 4500 },
+  { id: 4, name: 'Emma Watson', department: 'Marketing', salary: 5500 }
+];
+        function displayEmployees() {
+            const totalEmployees = employees
+                .map(employee => `<p>${employee.id}: ${employee.name} - ${employee.department} - $${employee.salary}</p>`)
+                .join('');
+            document.getElementById('employeesDetails').innerHTML = totalEmployees;
+        }
+
+        function calculateTotalSalaries() {
+            const totalSalaries = employees.reduce((acc, employee) => acc + employee.salary, 0);
+            alert(`Total Salaries: $${totalSalaries}`);
+        }
+
+        function displayHREmployees() {
+            const hrEmployees = employees.filter(employee => employee.department === 'HR');
+            const hrEmployeesDisplay = hrEmployees
+                .map(employee => `<p>${employee.id}: ${employee.name} - ${employee.department} - $${employee.salary}</p>`)
+                .join('');
+            document.getElementById('employeesDetails').innerHTML = hrEmployeesDisplay;
+        }
+
+        function findEmployeeById(employeeId) {
+            const foundEmployee = employees.find(employee => employee.id === employeeId);
+            if (foundEmployee) {
+                document.getElementById('employeesDetails').innerHTML = `<p>${foundEmployee.id}: ${foundEmployee.name} - ${foundEmployee.department} - $${foundEmployee.salary}</p>`;
+            } else {
+                document.getElementById('employeesDetails').innerHTML = 'No employee has been found with this ID';
+            }
+        }
+    </script>
+</body>
+</html>
