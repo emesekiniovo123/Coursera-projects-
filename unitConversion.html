@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: black; 
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .converter {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Unit Converter</h2>
+
+    <!-- Temperature Converter -->
+    <div class="converter">
+        <h3>Celsius to Fahrenheit</h3>
+        <input type="number" id="celsius" placeholder="Enter Celsius">
+        <button onclick="convertTemperature()">Convert</button>
+        <div class="result" id="tempResult"></div>
+    </div>
+
+    <!-- Weight Converter -->
+    <div class="converter">
+        <h3>Kilograms to Pounds</h3>
+        <input type="number" id="kilograms" placeholder="Enter Kilograms">
+        <button onclick="convertWeight()">Convert</button>
+        <div class="result" id="weightResult"></div>
+    </div>
+
+    <!-- Distance Converter -->
+    <div class="converter">
+        <h3>Kilometers to Miles</h3>
+        <input type="number" id="kilometers" placeholder="Enter Kilometers">
+        <button onclick="convertDistance()">Convert</button>
+        <div class="result" id="distanceResult"></div>
+    </div>
+
+    <script>
+        // Celsius to Fahrenheit
+        function convertTemperature() {
+            const celsius = parseFloat(document.getElementById("celsius").value);
+
+            if (isNaN(celsius)) {
+                document.getElementById("tempResult").textContent =
+                    "Please enter a valid number.";
+                return;
+            }
+
+            const fahrenheit = (celsius * 9 / 5) + 32;
+
+            document.getElementById("tempResult").textContent =
+                `${celsius}°C = ${fahrenheit.toFixed(2)}°F`;
+        }
+
+        // Kilograms to Pounds
+        function convertWeight() {
+            const kilograms = parseFloat(document.getElementById("kilograms").value);
+
+            if (isNaN(kilograms)) {
+                document.getElementById("weightResult").textContent =
+                    "Please enter a valid number.";
+                return;
+            }
+
+            const pounds = kilograms * 2.20462;
+
+            document.getElementById("weightResult").textContent =
+                `${kilograms} kg = ${pounds.toFixed(2)} lbs`;
+        }
+
+        // Kilometers to Miles
+        function convertDistance() {
+            const kilometers = parseFloat(document.getElementById("kilometers").value);
+
+            if (isNaN(kilometers)) {
+                document.getElementById("distanceResult").textContent =
+                    "Please enter a valid number.";
+                return;
+            }
+
+            const miles = kilometers * 0.621371;
+
+            document.getElementById("distanceResult").textContent =
+                `${kilometers} km = ${miles.toFixed(2)} miles`;
+        }
+    </script>
+
+</body>
+</html>
