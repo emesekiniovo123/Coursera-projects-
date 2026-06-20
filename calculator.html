@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Interest Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+            background-color: green;
+            color: white;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            color: black;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 10px;
+            border-top: 1px solid black;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Simple Interest Calculator</h2>
+
+    <input type="number" id="principal" placeholder="Principal Amount">
+    <input type="number" id="rate" placeholder="Rate (%)">
+    <input type="number" id="time" placeholder="Time (Years)">
+
+    <button onclick="calculateInterest()">Calculate</button>
+
+    <p id="result"></p>
+
+    <script>
+        function calculateInterest() {
+            const principal = parseFloat(document.getElementById("principal").value);
+            const rate = parseFloat(document.getElementById("rate").value);
+            const time = parseFloat(document.getElementById("time").value);
+
+            if (isNaN(principal) || isNaN(rate) || isNaN(time)) {
+                document.getElementById("result").textContent =
+                    "Invalid values.";
+                return;
+            }
+
+            const simpleInterest = (principal * rate * time) / 100;
+            const totalAmount = principal + simpleInterest;
+
+            document.getElementById("result").innerHTML =
+                `Simple Interest: ${simpleInterest.toFixed(2)}<br>
+                 Total Amount: ${totalAmount.toFixed(2)}`;
+        }
+    </script>
+
+    <h2>
+        Mathematically, Simple Interest (SI) = P * R * T / 100
+    </h2>
+    <h2>Amount(A)= P + SI </h2>
+
+    <footer>
+        &copy; 2026 Simple Interest Calculator | Designed by Josiah
+    </footer>
+
+</body>
+</html>
+
