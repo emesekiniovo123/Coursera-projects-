@@ -95,3 +95,154 @@ async function main() {
 }
 
 main();
+
+
+// <---SOLVED CONDITIONAL STATEMENTS WITH JAVASCRIPT--->
+
+// The if statements
+
+let man = 20;
+if(man >= 18){
+    console.log("You are an adult");
+}else{
+    console.log("You are a minor");
+}
+
+
+let age = 18;
+if(age >= 18){
+    console.log("Young can vote ");
+}else{
+    console.log("You cannot vote");
+}
+
+//The else if statements use to test multiple conditions sequentially.
+
+let time = 12; 
+if (time < 12){
+    console.log("Good morning");
+}else if (time > 12){
+    console.log("Good afternoon");
+}else{
+    console.log("Good evening");
+};
+ 
+
+// The else statements
+ let isRaining = false;
+ if(isRaining){
+    console.log("Bring umbrella");
+ }else{ 
+    console.log("Do not bring umbrella");
+ }
+
+// Nested if else statements in JS
+
+let yourAge = 20;
+let hasID = true;
+
+if (yourAge >= 18) {
+    console.log("You are an adult.");
+
+    if (hasID) {
+        console.log("You are allowed to enter.");
+    } else {
+        console.log("You need an ID to enter.");
+    }
+
+} else {
+    console.log("You are a minor. Access denied.");
+}
+
+// Switch Conditional Statements make comparison base on first match.
+
+let day = "Monday";
+
+switch (day) {
+  case "Monday":
+    console.log("Start of the work week");
+    break;
+
+  case "Tuesday":
+    console.log("Second day of the week");
+    break;
+
+  case "Wednesday":
+    console.log("Midweek");
+    break;
+
+  case "Thursday":
+    console.log("Almost Friday");
+    break;
+
+  case "Friday":
+    console.log("Weekend is near!");
+    break;
+
+  case "Saturday":
+  case "Sunday":
+    console.log("It's the weekend!");
+    break;
+
+  default:
+    console.log("Invalid day");
+}
+
+
+
+//Ternary Operator 
+let price = 100;
+
+function getDiscountedPrice(isMember) {
+  return isMember ? price * 0.8 : price;
+}
+
+console.log(getDiscountedPrice(true));  
+console.log(getDiscountedPrice(false)); 
+
+
+//Loop in JS
+
+//example of for loop in JS
+// Loop 1
+for (let i = 1; i <= 12; i++) {
+    console.log(i);
+}
+
+// Loop 2
+for (let a = 1; a <= 5; a++) {
+    console.log(a);
+}
+
+// Loop 3
+for (let b = 2; b >= -2; b--) {
+    console.log(b);
+}
+
+//Example of while loop in JS
+let d = 1;
+
+while (d <= 5) {
+  console.log(d);
+   d++;
+}
+
+
+//Do while loop
+let m = 1;
+
+do {
+    console.log(m);
+    m++;
+} while (m <= 4);
+
+
+
+// Return function
+
+function divide(a, b) {
+    return a / b;
+}
+let s1 = divide(32, 4);
+
+console.log(s1);
