@@ -246,3 +246,50 @@ function divide(a, b) {
 let s1 = divide(32, 4);
 
 console.log(s1);
+
+
+
+// Arrays && Array methods  in JS:
+// Arrays store various data types in [ ] . E.g const fruits = ["apple", "Orange" , "house"];
+// array methods are:
+
+// the push method is for adding new elements at the end of array
+let set = ['John', 'Peter', 'Emma'];
+set.push('Joel', 'Mary');
+console.log(set);
+
+// The pop method is for last element removal in array
+let venn = ["A", "B", "C", "D"];
+
+let removeVenn = venn.pop();
+
+
+console.log("Venn are", venn);
+console.log("removeVenn is", removeVenn);
+
+// The Shift Method Removes first element from array
+let diag = ['a', 'b', 'c', 'd'];
+let removeDiag = diag.shift();
+
+console.log("diag are", diag);
+ console.log("removeDiag is", removeDiag);
+ 
+// the unshift method is use for add 1 or more element to the beginning of array
+let sam = ['Josh', 'Paul', 'Emmy'];
+sam.unshift('Joe', 'Math');
+console.log(sam);
+
+//IndexOf method
+let surely = ['x', 'y', 'z'];
+let index = surely.indexOf('x');
+console.log('Index of x is', index);
+
+// The reverse method
+let beam =['q', 'r', 's', 't'];
+beam.reverse();
+console.log(beam); 
+
+// The length  method
+const f = ['a', 'd', 'h', 'e', 'r'];
+const numF = f.length;
+console.log(numF);
