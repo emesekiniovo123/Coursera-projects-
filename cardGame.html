@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Colorful Memory Match Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #0f0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        #game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            gap: 10px;
+            margin: 20px auto;
+        }
+        .card {
+            width: 80px;
+            height: 80px;
+            background-color: #3498db;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            user-select: none;
+        }
+        .card.flipped {
+            background-color: var(--color);
+        }
+        .startMain {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Colorful Memory Match Game</h1>
+    <div class="container">
+        <div id="game-container">
+         <!-- Cards will be generated dynamically using JavaScript -->
+        </div>
+        <div class="startMain">
+            <p id="score">Score: 0</p>
+            <p id="timer">Time Left: 30</p>
+            <button id="startbtn">Start/Restart</button>
+        </div>
+    </div>
+    <script>
+        const colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
+        let cards = [];
+        let selectedCards = [];
+        let score = 0;
+        let timeLeft = 30;
+        let gameInterval;
+
+        // Get DOM elements
+        const gameContainer = document.getElementById('game-container');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const startbtn = document.getElementById('startbtn');
+
+        // Shuffle function (Fisher-Yates)
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function generateCards() {
+            for (const color of cards) {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.color = color;
+                card.textContent = '?';
+                gameContainer.appendChild(card);
+            }
+        }
+
+        function handleCardClick(event) {
+            const card = event.target;
+            if (!card.classList.contains('card') || card.classList.contains('flipped')) {
+                return;
+            }
+            
+            card.style.setProperty('--color', card.dataset.color);
+            card.classList.add('flipped');
+            card.textContent = card.dataset.color;
+            selectedCards.push(card);
+
+            if (selectedCards.length === 2) {
+                if (selectedCards[0].dataset.color === selectedCards[1].dataset.color) {
+                    score++;
+                    scoreElement.textContent = `Score: ${score}`;
+                    selectedCards = [];
+                } else {
+                    setTimeout(() => {
+                        selectedCards.forEach(c => {
+                            c.classList.remove('flipped');
+                            c.textContent = '?';
+                        });
+                        selectedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        function startGame() {
+            timeLeft = 30;
+            startbtn.disabled = true;
+            score = 0;
+            scoreElement.textContent = `Score: ${score}`;
+            cards = shuffle(colors.concat(colors));
+            selectedCards = [];
+            gameContainer.innerHTML = '';
+            generateCards();
+            gameContainer.addEventListener('click', handleCardClick);
+            startGameTimer();
+        }
+
+        function startGameTimer() {
+            timerElement.textContent = `Time Left: ${timeLeft}`;
+            gameInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `Time Left: ${timeLeft}`;
+
+                if (timeLeft === 0) {
+                    clearInterval(gameInterval);
+                    alert('Game Over!');
+                    startbtn.disabled = false;
+                    gameContainer.removeEventListener('click', handleCardClick);
+                }
+            }, 1000);
+        }
+
+        startbtn.addEventListener('click', startGame);
+    </script>
+</body>
+</html>

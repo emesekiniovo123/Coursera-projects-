@@ -293,3 +293,6 @@ console.log(beam);
 const f = ['a', 'd', 'h', 'e', 'r'];
 const numF = f.length;
 console.log(numF);
+
+
+
