@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Counter</title>
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Counter</title>
+
+<style>
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  body{
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height:100vh;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .card{
+    background:yellow;
+    width:400px;
+    padding:30px;
+    border-radius:40px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  h1{
+    color:#333;
+    margin-bottom:49px;
+  }
+
+  h2{
+    color:#555;
+    margin-bottom:15px;
+  }
+
+  .followers{
+    font-size:1.4rem;
+    margin:20px 0;
+    color:#222;
+  }
+
+  #countDisplay{
+    color:#764ba2;
+    font-weight:bold;
+    font-size:2rem;
+  }
+
+  hr{
+    margin:20px 0;
+    border:none;
+    height:1px;
+    background:#ddd;
+  }
+
+  .info{
+    color:#666;
+    margin-bottom:20px;
+  }
+
+  button{
+    background:#764ba2;
+    color:white;
+    border:none;
+    padding:12px 30px;
+    font-size:1rem;
+    border-radius:50px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+
+  button:hover{
+    background:#5e3a84;
+    transform:translateY(-2px);
+  }
+
+  button:active{
+    transform:scale(0.95);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>📱 Interactive Counter</h1>
+  <h2>Account Holder: Peter Joseph</h2>
+
+  <p class="followers">
+    Followers: <span id="countDisplay">0</span>
+  </p>
+
+  <hr>
+
+  <p class="info">Click the button to follow</p>
+
+  <button onclick="increaseCount()">+ Follow</button>
+</div>
+
+<script>
+let count = 0;
+
+function displayCount() {
+  document.getElementById("countDisplay").innerHTML = count;
+}
+
+function checkCountValue() {
+  if (count === 100) {
+    alert("🎉 Your Instagram post gained 100 followers! Congratulations!");
+  } else if (count === 200) {
+    alert("🚀 Your Instagram post gained 200 followers! Keep it up!");
+  }
+}
+
+function increaseCount() {
+  count++;
+  displayCount();
+  checkCountValue();
+}
+</script>
+
+</body>
+</html>
