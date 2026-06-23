@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>TravelBloom - Explore The World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Base */
+        :root{
+            --accent:#ff6b6b;
+            --primary:#0f1724;
+            --muted:#7b8a97;
+            --card:#ffffff;
+            --glass: rgba(255,255,255,0.06);
+            --shadow: 0 6px 18px rgba(9,30,63,0.12);
+            --radius:12px;
+            --max-width:1100px;
+        }
+        html,body{
+            height:100%;
+            margin:12px;
+            font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg,#f5f7fb 0%, #fff0 10%);
+            color: #102027;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+        .container{
+            max-width:var(--max-width);
+            margin:0 auto;
+            padding:0 16px;
+        }
+
+        /* NAV */
+        .navbar{
+            position:fixed;
+            top:0;
+            left:0;
+            right:0;
+            background: rgba(200,5,200,.9);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(15,23,36,0.04);
+            box-shadow: 0 2px 8px rgba(16,32,48,0.04);
+            z-index:1000;
+        }
+        .nav-container{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            max-width:var(--max-width);
+            margin:0 auto;
+            padding:12px 16px;
+            gap:16px;
+        }
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-weight:700;
+            color:var(--primary);
+            font-size:18px;
+        }
+        .logo i{ color: var(--accent); font-size:20px; }
+
+        .nav-links{
+            list-style:none;
+            display:flex;
+            gap:18px;
+            margin:0;
+            padding:0;
+            align-items:center;
+        }
+        .nav-links .nav-link{
+            color: #12333b;
+            text-decoration:none;
+            padding:8px 10px;
+            border-radius:8px;
+            font-size:15px;
+        }
+        .nav-links .nav-link.active,
+        .nav-links .nav-link:hover{
+            background: linear-gradient(90deg, rgba(255,107,107,0.08), rgba(255,107,107,0.02));
+            color:var(--accent);
+        }
+
+        .hamburger{
+            display:none;
+            flex-direction:column;
+            gap:4px;
+            cursor:pointer;
+        }
+        .hamburger span{
+            width:22px;
+            height:2px;
+            background:#12333b;
+            display:block;
+            border-radius:2px;
+        }
+
+        /* HERO */
+        .hero{
+            min-height:84vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            position:relative;
+            padding-top:84px; /* account for navbar */
+            overflow:hidden;
+        }
+        .hero-background{
+            position:absolute;
+            inset:0;
+            background: linear-gradient(120deg, rgba(4,9,30,0.7), rgba(12,44,70,0.25));
+            background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s='); /* subtle hero image fallback */
+            background-size:cover;
+            background-position:center;
+            opacity:0.9;
+            z-index:0;
+            filter: saturate(0.95) contrast(1);
+        }
+        .hero-overlay{
+            position:absolute;
+            inset:0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.16));
+            z-index:1;
+        }
+        .hero-content{
+            position:relative;
+            z-index:2;
+            max-width:980px;
+            text-align:center;
+            color: #ff0;
+            padding:48px 18px;
+        }
+        .social-links{
+            display:flex;
+            gap:10px;
+            justify-content:center;
+            margin-bottom:18px;
+        }
+        .social-icon{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:40px;
+            height:40px;
+            background: rgba(255,255,255,0.06);
+            border-radius:50%;
+            color:#fff;
+            text-decoration:none;
+            transition:transform .18s ease, background .18s ease;
+        }
+        .social-icon:hover{ transform:translateY(-3px); background: rgba(255,255,255,0.12); }
+
+        .headline{
+            font-size:40px;
+            line-height:1.05;
+            margin:8px 0 16px;
+            font-weight:700;
+            letter-spacing:-0.02em;
+            text-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+        .description{
+            max-width:760px;
+            margin:0 auto 22px;
+            font-size:16px;
+            color: rgba(25,200,25,0.9);
+        }
+
+        /* Search */
+        .search-container{
+            display:flex;
+            gap:8px;
+            justify-content:center;
+            align-items:center;
+            margin:18px auto;
+            width:100%;
+            max-width:720px;
+        }
+        .search-bar{
+            flex:1;
+            padding:12px 14px;
+            border-radius:10px;
+            border:1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.06);
+            color:#fff;
+            outline:none;
+            font-size:15px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+        }
+        .search-bar::placeholder{ color: rgba(255, 255, 250, 0.9); }
+        .search-btn{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:10px 14px;
+            border-radius:10px;
+            background: linear-gradient(90deg,var(--accent), #ff8b7b);
+            color:#fff;
+            border:none;
+            cursor:pointer;
+            font-weight:600;
+            box-shadow: var(--shadow);
+        }
+
+        .search-suggestions{
+            position:relative;
+            margin:8px auto 0;
+            max-width:720px;
+            width:calc(100% - 32px);
+            display:none;
+            z-index:30;
+        }
+        .search-suggestions.active{ display:block; }
+        .suggestion-item{
+            background:#fff;
+            border-radius:10px;
+            padding:10px 12px;
+            margin:8px 0;
+            box-shadow: 0 6px 18px rgba(12,44,70,0.08);
+            cursor:pointer;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .suggestion-title{ font-weight:600; color:#0f1724; }
+        .suggestion-desc{ color:var(--muted); font-size:13px; }
+
+        .book-btn{
+            margin-top:22px;
+            padding:10px 18px;
+            border-radius:10px;
+            background: transparent;
+            border:2px solid rgba(255,255,255,0.16);
+            color:#fff;
+            font-weight:700;
+            cursor:pointer;
+        }
+
+        /* Results */
+        .results-section{
+            padding:56px 0;
+            background:transparent;
+        }
+        .results-grid{
+            display:grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap:18px;
+            margin-top:18px;
+        }
+        .result-card{
+            background:var(--card);
+            border-radius:12px;
+            padding:18px;
+            box-shadow: var(--shadow);
+            color: #0f1724;
+        }
+        .result-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:10px;
+        }
+        .result-title{ font-weight:700; font-size:18px; }
+        .result-category{ color:var(--muted); font-size:13px; }
+        .result-body{ font-size:14px; color:#33464f; }
+        .result-details{ margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .detail-item{ display:flex; justify-content:space-between; gap:8px; color:#33464f; font-size:13px; }
+        .local-time{ margin-top:12px; display:flex; gap:12px; align-items:center; justify-content:flex-start; flex-wrap:wrap; }
+        .time-display, .timezone{ background: #fff0; padding:8px 10px; border-radius:8px; font-size:13px; color:#0b2a33; }
+
+        /* About & Contact */
+        .about-section, .contact-section{
+            padding:56px 0;
+            background:transparent;
+        }
+        .about-section p{ color:#23444e; line-height:1.75; max-width:880px; margin:10px auto 0; }
+
+        .contact-form{
+            display:flex;
+            gap:12px;
+            flex-direction:column;
+            max-width:500px;
+            margin-top:12px;
+        }
+        .form-input{
+            width:100%;
+            padding:11px 12px;
+            border-radius:8px;
+            border:1px solid rgba(15,23,36,0.06);
+            font-size:14px;
+            outline:none;
+        }
+        .form-error{ color: var(--accent); font-size:13px; margin-top:6px; }
+        .submit-btn{
+            align-self:flex-start;
+            padding:10px 16px;
+            border-radius:8px;
+            background: linear-gradient(90deg,var(--accent), #ff8b7b);
+            color:#fff;
+            border:none;
+            font-weight:600;
+            cursor:pointer;
+        }
+
+        /* Booking modal */
+        .modal{
+            position:fixed;
+            inset:0;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            background: rgba(3,11,24,0.48);
+            z-index:1200;
+            padding:24px;
+        }
+        .modal.active{ display:flex; }
+        .modal-content{
+            width:100%;
+            max-width:760px;
+            background: #fff;
+            border-radius:14px;
+            padding:18px;
+            box-shadow: 0 30px 80px rgba(8,20,34,0.2);
+            overflow:auto;
+            max-height:90vh;
+        }
+        .modal-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
+        .close-modal{
+            background:transparent;
+            border:none;
+            font-size:24px;
+            cursor:pointer;
+            color:#33464f;
+        }
+        .booking-form .form-group{ margin-bottom:12px; display:flex; flex-direction:column; gap:8px; }
+        .form-row{ display:flex; gap:12px; flex-wrap:wrap; }
+        .booking-summary{ margin-top:12px; background:#f7fafc; padding:12px; border-radius:10px; }
+        .summary-item{ display:flex; justify-content:space-between; padding:6px 0; color:#233b42; }
+        .summary-total{ display:flex; justify-content:space-between; font-weight:700; padding-top:6px; border-top:1px dashed rgba(15,23,36,0.04); margin-top:8px; }
+
+        .error-text{ color:var(--accent); font-size:13px; margin-top:6px; }
+        .booking-btn{ margin-top:14px; padding:10px 14px; border-radius:10px; background:linear-gradient(90deg,var(--accent), #ff8b7b); border:none; color:#fff; cursor:pointer; font-weight:700; }
+
+        /* Footer */
+        .footer{ padding:24px 0; text-align:center; font-size:14px; color: #23444e; background:transparent; }
+
+        /* small screens */
+        @media (max-width:900px){
+            .headline{ font-size:32px; }
+            .nav-links{ display:none; }
+            .hamburger{ display:flex; }
+            .search-container{ padding:0 8px; }
+            .result-card{ padding:14px; }
+            .form-row{ flex-direction:column; }
+        }
+
+        /* utility */
+        .loading{
+            width:36px;height:36px;border-radius:50%;border:4px solid rgba(0,0,0,0.06);border-top-color:var(--accent);animation:spin 0.9s linear infinite;margin:24px auto;
+        }
+        @keyframes spin{ to{ transform:rotate(360deg); } }
+        .error-message{ color:var(--accent); background: #fff7f7; padding:12px; border-radius:10px; border:1px solid rgba(255,107,107,0.12); display:inline-flex; gap:8px; align-items:center; }
+        .success-message{ color:#0a7a5b; background:#f0fff7; padding:12px; border-radius:10px; border:1px solid rgba(10,122,91,0.08); display:inline-flex; gap:8px; align-items:center; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-globe"></i>
+                <span>TravelBloom</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#contact" class="nav-link">Contact Us</a></li>
+            </ul>
+            <div class="hamburger" aria-hidden="true" title="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background" aria-hidden="true"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+
+        <div class="hero-content container">
+            <!-- Social Media Links -->
+            <div class="social-links" aria-hidden="false">
+                <a href="https://facebook.com" target="_blank" class="social-icon" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" class="social-icon" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="social-icon" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="social-icon" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="headline">Explore The World's Hidden Gems</h1>
+
+            <!-- Description -->
+            <p class="description">
+                Discover breathtaking destinations and immerse yourself in diverse cultures. 
+                Get real-time local information and current time from anywhere in the world.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="search-container" role="search" aria-label="City search">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-bar" 
+                    placeholder="Search for any city, town, or country worldwide..."
+                    autocomplete="off"
+                    aria-label="Search for a city"
+                >
+                <button id="searchBtn" class="search-btn" aria-label="Search">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+
+            <!-- Search Suggestions -->
+            <div id="searchSuggestions" class="search-suggestions" role="listbox" aria-label="Search suggestions"></div>
+
+            <!-- Book Now Button -->
+            <button id="bookBtn" class="book-btn" aria-label="Open booking modal">
+                <i class="fas fa-plane"></i> Book Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="display:flex;align-items:center;gap:10px;"><i class="fas fa-suitcase-rolling" aria-hidden="true"></i> Book Your Trip</h2>
+                <button class="close-modal" aria-label="Close booking modal">&times;</button>
+            </div>
+
+            <form id="bookingForm" class="booking-form" novalidate>
+                <div class="form-group">
+                    <label for="destination">Destination <span style="color: var(--accent);">*</span></label>
+                    <input 
+                        type="text" 
+                        id="destination" 
+                        name="destination"
+                        placeholder="Where do you want to go?"
+                        required
+                    >
+                    <div class="error-text" id="destinationError"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;min-width:140px;">
+                        <label for="startDate">Start Date <span style="color: var(--accent);">*</span></label>
+                        <input 
+                            type="date" 
+                            id="startDate" 
+                            name="startDate"
+                            required
+                        >
+                        <div class="error-text" id="startDateError"></div>
+                    </div>
+
+                    <div class="form-group" style="flex:1;min-width:140px;">
+                        <label for="endDate">End Date <span style="color: var(--accent);">*</span></label>
+                        <input 
+                            type="date" 
+                            id="endDate" 
+                            name="endDate"
+                            required
+                        >
+                        <div class="error-text" id="endDateError"></div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;min-width:140px;">
+                        <label for="travelers">Number of Travelers <span style="color: var(--accent);">*</span></label>
+                        <select id="travelers" name="travelers" required>
+                            <option value="">Select travelers</option>
+                            <option value="1">1 Person</option>
+                            <option value="2">2 Persons</option>
+                            <option value="3">3 Persons</option>
+                            <option value="4">4 Persons</option>
+                            <option value="5">5+ Persons</option>
+                        </select>
+                        <div class="error-text" id="travelersError"></div>
+                    </div>
+
+                    <div class="form-group" style="flex:1;min-width:140px;">
+                        <label for="roomType">Room Type <span style="color: var(--accent);">*</span></label>
+                        <select id="roomType" name="roomType" required onchange="updatePrice()">
+                            <option value="">Select room type</option>
+                            <option value="budget">Budget ($50/night)</option>
+                            <option value="standard">Standard ($100/night)</option>
+                            <option value="deluxe">Deluxe ($200/night)</option>
+                            <option value="suite">Suite ($350/night)</option>
+                        </select>
+                        <div class="error-text" id="roomTypeError"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span style="color: var(--accent);">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email"
+                        placeholder="your@email.com"
+                        required
+                    >
+                    <div class="error-text" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number <span style="color: var(--accent);">*</span></label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone"
+                        placeholder="+1 (555) 000-0000"
+                        required
+                    >
+                    <div class="error-text" id="phoneError"></div>
+                </div>
+
+                <!-- Booking Summary -->
+                <div class="booking-summary" aria-live="polite">
+                    <div class="summary-item">
+                        <span class="summary-item-label">Destination:</span>
+                        <span id="summaryDestination">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Duration:</span>
+                        <span id="summaryDuration">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Travelers:</span>
+                        <span id="summaryTravelers">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Room Type:</span>
+                        <span id="summaryRoomType">-</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total Price:</span>
+                        <span id="summaryPrice">$0</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="booking-btn" id="submitBtn">
+                    <i class="fas fa-check-circle"></i> Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Search Results Section -->
+    <section id="results" class="results-section" style="display: none;">
+        <div class="container">
+            <h2>Search Results</h2>
+            <div id="errorMessage"></div>
+            <div id="resultsList" class="results-grid"></div>
+            <button id="clearResults" class="clear-btn" style="margin-top:18px;padding:8px 12px;border-radius:8px;border:1px solid rgba(15,23,36,0.06);background:#fff;cursor:pointer;">Clear Results</button>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About TravelBloom</h2>
+            <p>
+                TravelBloom is your premier travel companion, dedicated to connecting wanderers with 
+                unforgettable experiences around the globe. We provide real-time city and country information, 
+                local time zones, and curate the finest travel destinations for the modern explorer.
+                Search for any city, town, or country worldwide and get instant information about weather, 
+                time zones, and geographic coordinates.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div id="contactMessage"></div>
+            <form id="contactForm" class="contact-form" novalidate>
+                <div>
+                    <input 
+                        type="text" 
+                        name="name"
+                        id="nameInput"
+                        placeholder="Your Name" 
+                        required
+                        class="form-input"
+                        minlength="2"
+                        aria-label="Your Name"
+                    >
+                    <div id="nameError" class="form-error"></div>
+                </div>
+                <div>
+                    <input 
+                        type="email" 
+                        name="email"
+                        id="emailInput"
+                        placeholder="Your Email" 
+                        required
+                        class="form-input"
+                        aria-label="Your Email"
+                    >
+                    <div id="emailError" class="form-error"></div>
+                </div>
+                <div>
+                    <textarea 
+                        name="message"
+                        id="messageInput"
+                        placeholder="Your Message" 
+                        rows="3" 
+                        required
+                        class="form-input"
+                        minlength="10"
+                        aria-label="Your Message"
+                    ></textarea>
+                    <div id="messageError" class="form-error"></div>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 TravelBloom. All rights reserved. | Your Journey, Our Priority</p>
+    </footer>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const CONFIG = {
+            NOMINATIM_DELAY: 1100,
+            API_TIMEOUT: 10000,
+            MIN_SEARCH_LENGTH: 2
+        };
+
+        // Extended list of world cities for suggestions
+        const popularCities = [
+            'Paris', 'London', 'Tokyo', 'New York', 'Dubai', 'Sydney',
+            'Barcelona', 'Rome', 'Bangkok', 'Singapore', 'Amsterdam',
+            'Berlin', 'Moscow', 'Istanbul', 'Madrid', 'Venice', 'Tokyo',
+            'Dubai', 'Las Vegas', 'Los Angeles', 'San Francisco', 'Chicago',
+            'Miami', 'Toronto', 'Vancouver', 'Mexico City', 'Rio de Janeiro',
+            'Buenos Aires', 'São Paulo', 'Cairo', 'Cape Town', 'Mumbai',
+            'Delhi', 'Bangkok', 'Hong Kong', 'Seoul', 'Shanghai',
+            'Beijing', 'Bangkok', 'Hanoi', 'Ho Chi Minh City', 'Jakarta',
+            'Manila', 'Kuala Lumpur', 'Singapore', 'Phuket', 'Bali',
+            'Athens', 'Prague', 'Budapest', 'Vienna', 'Warsaw',
+            'Stockholm', 'Copenhagen', 'Oslo', 'Helsinki', 'Dublin',
+            'Edinburgh', 'Manchester', 'Liverpool', 'Cardiff', 'Belfast',
+            'Zurich', 'Geneva', 'Lucerne', 'Basel', 'Bern',
+            'Lyon', 'Marseille', 'Nice', 'Toulouse', 'Bordeaux',
+            'Munich', 'Hamburg', 'Cologne', 'Frankfurt', 'Stuttgart',
+            'Milan', 'Naples', 'Florence', 'Venice', 'Turin',
+            'Madrid', 'Barcelona', 'Valencia', 'Seville', 'Bilbao',
+            'Lisbon', 'Porto', 'Faro', 'Covilhã', 'Braga',
+            'Wellington', 'Auckland', 'Christchurch', 'Queenstown', 'Rotorua',
+            'Brisbane', 'Melbourne', 'Perth', 'Adelaide', 'Hobart',
+            'Auckland', 'Hamilton', 'Tauranga', 'Rotorua', 'Wellington'
+        ];
+
+        // Pricing configuration
+        const roomPrices = {
+            budget: 50,
+            standard: 100,
+            deluxe: 200,
+            suite: 350
+        };
+
+        // ==================== DOM ELEMENTS ====================
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+        const resultsList = document.getElementById('resultsList');
+        const resultsSection = document.getElementById('results');
+        const clearResults = document.getElementById('clearResults');
+        const errorMessage = document.getElementById('errorMessage');
+        const contactForm = document.getElementById('contactForm');
+        const contactMessage = document.getElementById('contactMessage');
+
+        // Booking modal elements
+        const bookBtn = document.getElementById('bookBtn');
+        const bookingModal = document.getElementById('bookingModal');
+        const closeModal = document.querySelector('.close-modal');
+        const bookingForm = document.getElementById('bookingForm');
+        const destinationInput = document.getElementById('destination');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const travelersInput = document.getElementById('travelers');
+        const roomTypeInput = document.getElementById('roomType');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+
+        // ==================== BOOKING MODAL FUNCTIONALITY ====================
+        bookBtn.addEventListener('click', () => {
+            bookingModal.classList.add('active');
+            bookingModal.setAttribute('aria-hidden', 'false');
+        });
+
+        closeModal.addEventListener('click', () => {
+            bookingModal.classList.remove('active');
+            bookingModal.setAttribute('aria-hidden', 'true');
+        });
+
+        bookingModal.addEventListener('click', (e) => {
+            if (e.target === bookingModal) {
+                bookingModal.classList.remove('active');
+                bookingModal.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // Update price and summary
+        function updatePrice() {
+            const destination = destinationInput.value;
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+            const travelers = travelersInput.value;
+            const roomType = roomTypeInput.value;
+
+            // Update summary destination
+            document.getElementById('summaryDestination').textContent = destination || '-';
+
+            // Calculate duration
+            if (startDate && endDate && startDate < endDate) {
+                const duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+                document.getElementById('summaryDuration').textContent = `${duration} days`;
+            } else {
+                document.getElementById('summaryDuration').textContent = '-';
+            }
+
+            // Update summary travelers
+            document.getElementById('summaryTravelers').textContent = travelers || '-';
+
+            // Update summary room type
+            const roomLabel = roomTypeInput.options[roomTypeInput.selectedIndex]?.text || '-';
+            document.getElementById('summaryRoomType').textContent = roomLabel;
+
+            // Calculate total price
+            if (startDate && endDate && startDate < endDate && travelers && roomType) {
+                const duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+                const pricePerNight = roomPrices[roomType];
+                const totalPrice = duration * pricePerNight * travelers;
+                document.getElementById('summaryPrice').textContent = `$${totalPrice.toLocaleString()}`;
+            } else {
+                document.getElementById('summaryPrice').textContent = '$0';
+            }
+        }
+
+        // Update price on input changes
+        destinationInput.addEventListener('change', updatePrice);
+        startDateInput.addEventListener('change', updatePrice);
+        endDateInput.addEventListener('change', updatePrice);
+        travelersInput.addEventListener('change', updatePrice);
+
+        // Clear booking form errors on input
+        const bookingInputs = bookingForm.querySelectorAll('input, select');
+        bookingInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const errorId = input.id + 'Error';
+                const errorElement = document.getElementById(errorId);
+                if (errorElement) {
+                    errorElement.textContent = '';
+                    input.classList.remove('error');
+                }
+                updatePrice();
+            });
+        });
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.setAttribute('min', today);
+        endDateInput.setAttribute('min', today);
+
+        // Validate booking form
+        function validateBookingForm() {
+            let isValid = true;
+            const errors = {};
+
+            // Validate destination
+            if (!destinationInput.value.trim()) {
+                errors.destination = 'Please enter a destination.';
+                isValid = false;
+            }
+
+            // Validate start date
+            if (!startDateInput.value) {
+                errors.startDate = 'Please select a start date.';
+                isValid = false;
+            }
+
+            // Validate end date
+            if (!endDateInput.value) {
+                errors.endDate = 'Please select an end date.';
+                isValid = false;
+            }
+
+            // Validate date range
+            if (startDateInput.value && endDateInput.value) {
+                const startDate = new Date(startDateInput.value);
+                const endDate = new Date(endDateInput.value);
+                if (startDate >= endDate) {
+                    errors.endDate = 'End date must be after start date.';
+                    isValid = false;
+                }
+            }
+
+            // Validate travelers
+            if (!travelersInput.value) {
+                errors.travelers = 'Please select number of travelers.';
+                isValid = false;
+            }
+
+            // Validate room type
+            if (!roomTypeInput.value) {
+                errors.roomType = 'Please select a room type.';
+                isValid = false;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value.trim())) {
+                errors.email = 'Please enter a valid email address.';
+                isValid = false;
+            }
+
+            // Validate phone
+            const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+            if (!phoneInput.value.trim()) {
+                errors.phone = 'Please enter your phone number.';
+                isValid = false;
+            } else if (!phoneRegex.test(phoneInput.value.trim())) {
+                errors.phone = 'Please enter a valid phone number.';
+                isValid = false;
+            }
+
+            // Display errors
+            Object.keys(errors).forEach(field => {
+                const errorElement = document.getElementById(field + 'Error');
+                const inputElement = document.getElementById(field);
+                if (errorElement && inputElement) {
+                    errorElement.textContent = errors[field];
+                    inputElement.classList.add('error');
+                }
+            });
+
+            return isValid;
+        }
+
+        // Handle booking form submission
+        bookingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!validateBookingForm()) {
+                return;
+            }
+
+            try {
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // Booking data
+                const bookingData = {
+                    destination: destinationInput.value,
+                    startDate: startDateInput.value,
+                    endDate: endDateInput.value,
+                    travelers: travelersInput.value,
+                    roomType: roomTypeInput.value,
+                    email: emailInput.value,
+                    phone: phoneInput.value,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Show success message
+                alert(`✅ Booking Confirmed!\n\nDestination: ${bookingData.destination}\nCheck-in: ${bookingData.startDate}\nCheck-out: ${bookingData.endDate}\nTravelers: ${bookingData.travelers}\n\nConfirmation email sent to: ${bookingData.email}`);
+
+                // Log booking data
+                console.log('Booking submitted:', bookingData);
+
+                // Reset form and close modal
+                bookingForm.reset();
+                bookingModal.classList.remove('active');
+                bookingModal.setAttribute('aria-hidden', 'true');
+                updatePrice();
+
+            } catch (error) {
+                alert('Error processing booking. Please try again.');
+            } finally {
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirm Booking';
+            }
+        });
+
+        // ==================== RATE LIMITING ====================
+        let lastSearchTime = 0;
+
+        function shouldThrottle() {
+            const now = Date.now();
+            if (now - lastSearchTime < CONFIG.NOMINATIM_DELAY) {
+                return true;
+            }
+            lastSearchTime = now;
+            return false;
+        }
+
+        // ==================== SEARCH FUNCTIONALITY ====================
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length >= CONFIG.MIN_SEARCH_LENGTH) {
+                const filtered = popularCities.filter(city => 
+                    city.toLowerCase().includes(query)
+                );
+                displaySuggestions(filtered);
+            } else {
+                searchSuggestions.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                searchSuggestions.classList.remove('active');
+            }
+        });
+
+        searchBtn.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            if (query.length >= CONFIG.MIN_SEARCH_LENGTH) {
+                fetchCityData(query);
+            } else {
+                showError(`Please enter at least ${CONFIG.MIN_SEARCH_LENGTH} characters.`);
+            }
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+
+        function displaySuggestions(items) {
+            if (items.length === 0) {
+                searchSuggestions.classList.remove('active');
+                return;
+            }
+            searchSuggestions.innerHTML = items.map((item, index) => `
+                <div class="suggestion-item" onclick="selectSuggestion('${item}')" role="option" tabindex="0">
+                    <div class="suggestion-title">${escapeHtml(item)}</div>
+                    <div class="suggestion-desc"><i class="fas fa-map-marker-alt"></i> Location</div>
+                </div>
+            `).join('');
+            searchSuggestions.classList.add('active');
+        }
+
+        function selectSuggestion(title) {
+            searchInput.value = title;
+            searchSuggestions.classList.remove('active');
+            fetchCityData(title);
+        }
+
+        // ==================== API CALLS WITH ERROR HANDLING ====================
+        async function fetchWithTimeout(url, options = {}) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), CONFIG.API_TIMEOUT);
+
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller.signal,
+                    headers: {
+                        'Accept': 'application/json',
+                        'User-Agent': 'TravelBloom/1.0',
+                        ...options.headers
+                    }
+                });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                throw error;
+            }
+        }
+
+        async function fetchCityData(cityName) {
+            try {
+                if (!cityName || cityName.length < CONFIG.MIN_SEARCH_LENGTH) {
+                    throw new Error(`City name must be at least ${CONFIG.MIN_SEARCH_LENGTH} characters long.`);
+                }
+
+                if (shouldThrottle()) {
+                    throw new Error('Please wait a moment before searching again.');
+                }
+
+                resultsSection.style.display = 'block';
+                errorMessage.innerHTML = '';
+                resultsList.innerHTML = '<div style="grid-column: 1/-1; text-align: center;"><div class="loading"></div> Fetching global data...</div>';
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+                searchBtn.disabled = true;
+
+                // First attempt: search by city name
+                let geoResponse = await fetchWithTimeout(
+                    `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(cityName)}&format=json&limit=1`
+                );
+
+                // Fallback: if no results, search by name (more general search)
+                if (!geoResponse.ok || (await geoResponse.clone().json()).length === 0) {
+                    geoResponse = await fetchWithTimeout(
+                        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=json&limit=1`
+                    );
+                }
+
+                if (!geoResponse.ok) {
+                    throw new Error('Unable to connect to location service. Please try again.');
+                }
+
+                const geoData = await geoResponse.json();
+                if (!geoData || geoData.length === 0) {
+                    throw new Error(`"${escapeHtml(cityName)}" not found. Try searching for a country or region name.`);
+                }
+
+                const location = geoData[0];
+                const { lat, lon, display_name } = location;
+
+                let timezoneData = {};
+                try {
+                    const timezoneResponse = await fetchWithTimeout(
+                        `https://timeapi.io/api/timezone/coordinate?latitude=${lat}&longitude=${lon}`
+                    );
+                    if (timezoneResponse.ok) {
+                        timezoneData = await timezoneResponse.json();
+                    }
+                } catch (error) {
+                    console.warn('Timezone API unavailable:', error);
+                }
+
+                let weatherData = {};
+                try {
+                    const weatherResponse = await fetchWithTimeout(
+                        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day`
+                    );
+                    if (weatherResponse.ok) {
+                        weatherData = await weatherResponse.json();
+                    }
+                } catch (error) {
+                    console.warn('Weather API unavailable:', error);
+                }
+
+                displayCityResults(cityName, location, timezoneData, weatherData);
+
+            } catch (error) {
+                showError(error.message);
+                resultsList.innerHTML = '';
+            } finally {
+                searchBtn.disabled = false;
+            }
+        }
+
+        function showError(message) {
+            errorMessage.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-circle"></i> ${escapeHtml(message)}</div>`;
+        }
+
+        function displayCityResults(cityName, location, timezoneData, weatherData) {
+            const { display_name, lat, lon } = location;
+
+            const addressParts = display_name.split(',');
+            const country = addressParts[addressParts.length - 1].trim();
+
+            const timezone = timezoneData.timezone || 'N/A';
+            let localTime = 'N/A';
+
+            if (timezoneData.currentLocalTime) {
+                localTime = new Date(timezoneData.currentLocalTime).toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit' 
+                });
+            } else if (timezoneData.standardUtcOffset) {
+                const offset = parseInt(timezoneData.standardUtcOffset.split(':')[0]);
+                const currentTime = new Date(new Date().getTime() + offset * 3600000);
+                localTime = currentTime.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit' 
+                });
+            }
+
+            const temperature = weatherData.current?.temperature_2m ?? 'N/A';
+            const weatherCode = weatherData.current?.weather_code;
+            const weatherDesc = weatherCode !== undefined ? getWeatherDescription(weatherCode) : 'N/A';
+
+            const result = `
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="result-title">${escapeHtml(cityName)}</div>
+                        <div class="result-category">${escapeHtml(country)}</div>
+                    </div>
+                    <div class="result-body">
+                        <p class="result-description">${escapeHtml(display_name)}</p>
+
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span class="detail-label"><i class="fas fa-map-pin"></i> Latitude:</span>
+                                <span>${parseFloat(lat).toFixed(4)}°</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label"><i class="fas fa-map-pin"></i> Longitude:</span>
+                                <span>${parseFloat(lon).toFixed(4)}°</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label"><i class="fas fa-thermometer-half"></i> Temperature:</span>
+                                <span>${temperature === 'N/A' ? 'N/A' : temperature + '°C'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label"><i class="fas fa-cloud"></i> Weather:</span>
+                                <span>${escapeHtml(weatherDesc)}</span>
+                            </div>
+                        </div>
+
+                        <div class="local-time">
+                            <div class="time-display">
+                                <i class="fas fa-clock"></i> ${escapeHtml(localTime)}
+                            </div>
+                            <div class="timezone">
+                                <i class="fas fa-globe"></i> ${escapeHtml(timezone)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            resultsList.innerHTML = result;
+        }
+
+        function getWeatherDescription(code) {
+            const weatherCodes = {
+                0: '☀️ Clear',
+                1: '🌤️ Partly Cloudy',
+                2: '☁️ Cloudy',
+                3: '☁️ Overcast',
+                45: '🌫️ Foggy',
+                48: '🌫️ Depositing Rime Fog',
+                51: '🌧️ Light Drizzle',
+                53: '🌧️ Moderate Drizzle',
+                55: '🌧️ Dense Drizzle',
+                61: '🌧️ Slight Rain',
+                63: '🌧️ Moderate Rain',
+                65: '🌧️ Heavy Rain',
+                71: '❄️ Slight Snow',
+                73: '❄️ Moderate Snow',
+                75: '❄️ Heavy Snow',
+                80: '🌧️ Slight Rain Showers',
+                81: '🌧️ Moderate Rain Showers',
+                82: '🌧️ Violent Rain Showers',
+                85: '❄️ Slight Snow Showers',
+                86: '❄️ Heavy Snow Showers',
+                95: '⛈️ Thunderstorm',
+                96: '⛈️ Thunderstorm with Hail',
+                99: '⛈️ Thunderstorm with Hail'
+            };
+            return weatherCodes[code] || 'Unknown';
+        }
+
+        clearResults.addEventListener('click', () => {
+            resultsSection.style.display = 'none';
+            searchInput.value = '';
+            searchInput.focus();
+            errorMessage.innerHTML = '';
+        });
+
+        // ==================== CONTACT FORM HANDLING ====================
+        const formInputs = {
+            name: document.getElementById('nameInput'),
+            email: document.getElementById('emailInput'),
+            message: document.getElementById('messageInput')
+        };
+
+        const formErrors = {
+            name: document.getElementById('nameError'),
+            email: document.getElementById('emailError'),
+            message: document.getElementById('messageError')
+        };
+
+        Object.keys(formInputs).forEach(key => {
+            formInputs[key].addEventListener('input', () => {
+                formErrors[key].textContent = '';
+                formInputs[key].classList.remove('error');
+            });
+        });
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!validateContactForm()) {
+                return;
+            }
+
+            try {
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+
+                const formData = {
+                    name: formInputs.name.value.trim(),
+                    email: formInputs.email.value.trim(),
+                    message: formInputs.message.value.trim(),
+                    timestamp: new Date().toISOString()
+                };
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                contactMessage.innerHTML = '<div class="success-message"><i class="fas fa-check-circle"></i> Thank you for your message! We will get back to you soon.</div>';
+                contactForm.reset();
+
+                setTimeout(() => {
+                    contactMessage.innerHTML = '';
+                }, 5000);
+
+                console.log('Form submitted:', formData);
+
+            } catch (error) {
+                contactMessage.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error sending message. Please try again.</div>`;
+            } finally {
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        function validateContactForm() {
+            let isValid = true;
+
+            if (formInputs.name.value.trim().length < 2) {
+                formErrors.name.textContent = 'Name must be at least 2 characters long.';
+                formInputs.name.classList.add('error');
+                isValid = false;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formInputs.email.value.trim())) {
+                formErrors.email.textContent = 'Please enter a valid email address.';
+                formInputs.email.classList.add('error');
+                isValid = false;
+            }
+
+            if (formInputs.message.value.trim().length < 10) {
+                formErrors.message.textContent = 'Message must be at least 10 characters long.';
+                formInputs.message.classList.add('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        window.addEventListener('load', () => {
+            searchInput.focus();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
