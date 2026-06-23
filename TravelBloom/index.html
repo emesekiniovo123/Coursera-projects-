@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBloom - Explore The World</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-globe"></i>
+                <span>TravelBloom</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#contact" class="nav-link">Contact Us</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <!-- Social Media Links -->
+            <div class="social-links">
+                <a href="https://facebook.com" target="_blank" class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="headline">Explore The World's Hidden Gems</h1>
+            
+            <!-- Description -->
+            <p class="description">
+                Discover breathtaking destinations and immerse yourself in diverse cultures. 
+                From tropical islands to mountain peaks, find your next adventure with TravelBloom.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-bar" 
+                    placeholder="Search destinations or keywords..."
+                    autocomplete="off"
+                >
+                <button id="searchBtn" class="search-btn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+
+            <!-- Search Suggestions -->
+            <div id="searchSuggestions" class="search-suggestions"></div>
+
+            <!-- Book Now Button -->
+            <button class="book-btn">Book Now</button>
+        </div>
+    </section>
+
+    <!-- Search Results Section -->
+    <section id="results" class="results-section" style="display: none;">
+        <div class="container">
+            <h2>Search Results</h2>
+            <div id="resultsList" class="results-grid"></div>
+            <button id="clearResults" class="clear-btn">Clear Results</button>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About TravelBloom</h2>
+            <p>
+                TravelBloom is your premier travel companion, dedicated to connecting wanderers with 
+                unforgettable experiences around the globe. We curate the finest travel destinations, 
+                cultural experiences, and adventure opportunities for the modern explorer.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <form id="contactForm" class="contact-form">
+                <input 
+                    type="text" 
+                    placeholder="Your Name" 
+                    required
+                    class="form-input"
+                >
+                <input 
+                    type="email" 
+                    placeholder="Your Email" 
+                    required
+                    class="form-input"
+                >
+                <textarea 
+                    placeholder="Your Message" 
+                    rows="5" 
+                    required
+                    class="form-input"
+                ></textarea>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 TravelBloom. All rights reserved. | Your Journey, Our Priority</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
